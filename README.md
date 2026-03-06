@@ -1,191 +1,352 @@
 # Scalable REST API with Authentication & Role-Based Access
 
-## Project Overview
+A full-stack application demonstrating a **secure and scalable REST API architecture** built with **FastAPI** and a **React frontend**.
+The system supports **JWT authentication, role-based access control (Admin/User), and CRUD operations for tasks**, along with an admin dashboard for user management.
 
-This project implements a **secure and scalable REST API** with user authentication, role-based access control, and CRUD operations for tasks.
-It also includes a basic frontend UI to interact with the APIs.
-
-The system demonstrates backend best practices including authentication, modular architecture, input validation, and API documentation.
+This project was built as part of a **Backend Developer Internship assignment**, focusing on backend architecture, API design, security practices, and frontend integration.
 
 ---
 
-## Tech Stack
+# 🚀 Features
 
-### Backend
+## Backend (FastAPI)
 
-* FastAPI
-* SQLAlchemy ORM
-* SQLite (can be replaced with PostgreSQL/MySQL)
-* JWT Authentication
-* Passlib (bcrypt password hashing)
-
-### Frontend
-
-* React.js
-* Axios for API communication
-
-### Documentation
-
-* Swagger (auto-generated)
-* OpenAPI
+* User **registration and login** with password hashing (bcrypt)
+* **JWT authentication** with secure token validation
+* **Role-based access control** (User vs Admin)
+* **CRUD APIs for tasks**
+* **User-specific task isolation**
+* **Admin APIs to manage users and inspect tasks**
+* API **versioning (`/api/v1`)**
+* Structured **modular architecture**
+* **Input validation using Pydantic**
+* Built-in **Swagger API documentation**
 
 ---
 
-## Features
+## Frontend (React + Vite)
 
-### Authentication
+Simple UI to demonstrate API interaction:
 
-* User Registration
-* User Login
-* Password hashing using bcrypt
-* JWT token generation
-* Secure protected routes
-
-### Role-Based Access
-
-* User role support
-* Admin-only endpoints possible
-
-### Task Management
-
-* Create Task
-* View Tasks
-* Update Task
-* Delete Task
-
-### API Best Practices
-
-* RESTful API design
-* API versioning (`/api/v1`)
-* Request validation with Pydantic
-* Error handling with proper HTTP status codes
+* Home page with **Login / Register**
+* **Register as User or Admin**
+* Secure **Login with JWT**
+* **Protected dashboards**
+* User dashboard for **task management**
+* Admin dashboard for **user management**
+* Error handling and validation messages
 
 ---
 
-## Project Structure
+# 🧱 Tech Stack
 
-backend/
-app/
-main.py
-database.py
+## Backend
 
-models/
-user.py
-task.py
+* **FastAPI**
+* **SQLAlchemy**
+* **SQLite**
+* **Python-JOSE (JWT)**
+* **Passlib (bcrypt hashing)**
 
-schemas/
-user_schema.py
-task_schema.py
+## Frontend
 
-routes/
-auth_routes.py
-task_routes.py
-
-utils/
-hashing.py
-jwt_handler.py
-
-dependencies/
-auth_guard.py
-
-requirements.txt
+* **React (Vite)**
+* **Axios**
+* **React Router**
 
 ---
 
-## Installation & Setup
+# 📁 Project Structure
 
-### 1. Clone Repository
-
-git clone https://github.com/YOUR_USERNAME/scalable-api-assignment.git
-
-cd scalable-api-assignment/backend
-
-### 2. Create Virtual Environment
-
-python -m venv venv
-
-source venv/bin/activate
-
-### 3. Install Dependencies
-
-pip install -r requirements.txt
-
-### 4. Run Server
-
-uvicorn app.main:app --reload
-
-Server runs on:
-
-http://127.0.0.1:8000
+```
+Ai-scalable-api
+│
+├── backend
+│   ├── app
+│   │   ├── routes
+│   │   │   ├── auth_routes.py
+│   │   │   ├── task_routes.py
+│   │   │   └── admin_routes.py
+│   │   │
+│   │   ├── models
+│   │   │   ├── user.py
+│   │   │   └── task.py
+│   │   │
+│   │   ├── schemas
+│   │   │   ├── user_schema.py
+│   │   │   └── task_schema.py
+│   │   │
+│   │   ├── dependencies
+│   │   │   └── auth_guard.py
+│   │   │
+│   │   ├── database.py
+│   │   └── main.py
+│   │
+│   └── requirements.txt
+│
+├── frontend
+│   ├── src
+│   │   ├── pages
+│   │   │   ├── Home.jsx
+│   │   │   ├── Login.jsx
+│   │   │   ├── Register.jsx
+│   │   │   ├── Dashboard.jsx
+│   │   │   └── AdminDashboard.jsx
+│   │   │
+│   │   ├── components
+│   │   │   └── TaskForm.jsx
+│   │   │
+│   │   ├── api
+│   │   │   └── api.js
+│   │   │
+│   │   └── App.jsx
+│   │
+│   └── package.json
+│
+├── README.md
+└── .gitignore
+```
 
 ---
 
-## API Documentation
+# 🔐 Authentication Flow
 
-Swagger UI:
+1. User registers using `/api/v1/auth/register`
+2. Password is securely **hashed using bcrypt**
+3. User logs in via `/api/v1/auth/login`
+4. Backend returns a **JWT token**
+5. Frontend stores token and sends it in:
 
-http://127.0.0.1:8000/docs
+```
+Authorization: Bearer <token>
+```
 
-ReDoc:
-
-http://127.0.0.1:8000/redoc
-
----
-
-## Authentication Flow
-
-1. Register a user
-2. Login to receive a JWT token
-3. Include token in API requests
-
-Example header:
-
-Authorization: Bearer <JWT_TOKEN>
+6. Protected routes verify the token before granting access.
 
 ---
 
-## Example API Endpoints
+# 👥 Role-Based Access Control
 
-### Register
+Two roles exist:
 
+### User
+
+Users can:
+
+* Create tasks
+* View their tasks
+* Edit tasks
+* Delete tasks
+
+Each user's tasks are **isolated using `owner_id`**.
+
+---
+
+### Admin
+
+Admins can:
+
+* View all registered users
+* Delete users
+* View tasks created by any user
+
+Admin-only endpoints:
+
+```
+GET /api/v1/admin/users
+DELETE /api/v1/admin/users/{user_id}
+GET /api/v1/admin/users/{user_id}/tasks
+```
+
+---
+
+# 📦 API Endpoints
+
+## Authentication
+
+```
 POST /api/v1/auth/register
-
-### Login
-
 POST /api/v1/auth/login
-
-### Tasks
-
-POST /api/v1/tasks
-GET /api/v1/tasks
-PUT /api/v1/tasks/{id}
-DELETE /api/v1/tasks/{id}
+```
 
 ---
 
-## Security Practices
+## Tasks
 
-* Password hashing using bcrypt
-* JWT token authentication
-* Input validation with Pydantic
-* Protected routes using authentication middleware
-
----
-
-## Scalability Design
-
-The backend uses a **modular architecture** separating routes, models, schemas, and services to maintain scalability.
-
-Future improvements may include:
-
-* Microservices architecture
-* Redis caching
-* Docker containerization
-* Load balancing
-* Database indexing for performance
+```
+POST   /api/v1/tasks
+GET    /api/v1/tasks
+PUT    /api/v1/tasks/{task_id}
+DELETE /api/v1/tasks/{task_id}
+```
 
 ---
 
-## Author
+## Admin
 
-Anuj Pundora
+```
+GET    /api/v1/admin/users
+DELETE /api/v1/admin/users/{user_id}
+GET    /api/v1/admin/users/{user_id}/tasks
+```
+
+---
+
+# 📄 API Documentation
+
+FastAPI automatically provides interactive documentation:
+
+```
+http://127.0.0.1:8000/docs
+```
+
+---
+
+# 🗄 Database Schema
+
+## Users
+
+| Field    | Type            |
+| -------- | --------------- |
+| id       | Integer         |
+| email    | String          |
+| password | String (hashed) |
+| role     | String          |
+
+---
+
+## Tasks
+
+| Field       | Type                |
+| ----------- | ------------------- |
+| id          | Integer             |
+| title       | String              |
+| description | String              |
+| owner_id    | Foreign Key → Users |
+
+---
+
+# ⚙️ Setup Instructions
+
+## Backend
+
+Navigate to backend folder:
+
+```
+cd backend
+```
+
+Create virtual environment:
+
+```
+python -m venv venv
+```
+
+Activate:
+
+Mac/Linux
+
+```
+source venv/bin/activate
+```
+
+Install dependencies:
+
+```
+pip install -r requirements.txt
+```
+
+Run server:
+
+```
+uvicorn app.main:app --reload
+```
+
+Backend runs at:
+
+```
+http://127.0.0.1:8000
+```
+
+---
+
+## Frontend
+
+Navigate to frontend folder:
+
+```
+cd frontend
+```
+
+Install dependencies:
+
+```
+npm install
+```
+
+Run development server:
+
+```
+npm run dev
+```
+
+Frontend runs at:
+
+```
+http://localhost:5173
+```
+
+---
+
+# 🧠 Security Practices
+
+* Password hashing using **bcrypt**
+* **JWT token authentication**
+* **Role-based authorization**
+* **Pydantic input validation**
+* **Protected routes with dependency guards**
+* **CORS configuration**
+
+---
+
+# 📈 Scalability Notes
+
+The backend follows a **modular architecture** separating:
+
+* routes
+* schemas
+* models
+* dependencies
+* database logic
+
+This structure enables easy scaling as the application grows.
+
+Future improvements could include:
+
+* **Redis caching**
+* **Docker containerization**
+* **Load balancing**
+* **Microservices architecture**
+* **PostgreSQL production database**
+
+---
+
+# 🎯 Evaluation Criteria Addressed
+
+This project demonstrates:
+
+✔ RESTful API design
+✔ Secure authentication with JWT
+✔ Role-based access control
+✔ Proper database relationships
+✔ Input validation and error handling
+✔ Frontend integration with protected routes
+✔ Scalable backend architecture
+
+---
+
+# 👨‍💻 Author
+
+**Anuj Pundora**
+
+Backend Developer | AI & Full Stack Enthusiast

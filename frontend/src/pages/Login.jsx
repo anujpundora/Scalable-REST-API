@@ -4,28 +4,36 @@ import { useNavigate } from "react-router-dom";
 
 function Login(){
 
-  const [email,setEmail] = useState("");
-  const [password,setPassword] = useState("");
+  const [email,setEmail] = useState("")
+  const [password,setPassword] = useState("")
+  const [role,setRole] = useState("user")
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   const handleSubmit = async(e)=>{
-    e.preventDefault();
+    e.preventDefault()
 
     try{
 
-      const res = await API.post("/auth/login",{email,password});
+      const res = await API.post("/auth/login",{email,password})
 
-      localStorage.setItem("token",res.data.access_token);
+      localStorage.setItem("token",res.data.access_token)
 
-      navigate("/dashboard");
+      const payload = JSON.parse(atob(res.data.access_token.split('.')[1]))
+
+      if(payload.role === "admin"){
+        navigate("/admin")
+      }else{
+        navigate("/dashboard")
+      }
 
     }catch(err){
-      alert("Invalid credentials");
+      alert("Invalid credentials")
     }
   }
 
   return(
+
     <div>
 
       <h2>Login</h2>
@@ -46,7 +54,17 @@ function Login(){
           onChange={(e)=>setPassword(e.target.value)}
         />
 
-        <button type="submit">Login</button>
+        <select
+          value={role}
+          onChange={(e)=>setRole(e.target.value)}
+        >
+          <option value="user">User Login</option>
+          <option value="admin">Admin Login</option>
+        </select>
+
+        <button type="submit">
+          Login
+        </button>
 
       </form>
 
@@ -54,4 +72,4 @@ function Login(){
   )
 }
 
-export default Login;
+export default Login
