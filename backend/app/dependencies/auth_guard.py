@@ -1,23 +1,21 @@
 from fastapi import Depends, HTTPException
-from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-from jose import jwt, JWTError
+from fastapi.security import HTTPBearer
+from jose import jwt
 from app.utils.jwt_handler import SECRET_KEY, ALGORITHM
 
 security = HTTPBearer()
 
+def get_current_user(credentials = Depends(security)):
 
-def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(security)):
-    
     token = credentials.credentials
 
-    try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        email = payload.get("sub")
+    payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
 
-        if email is None:
-            raise HTTPException(status_code=401, detail="Invalid token")
+    return payload
 
-        return email
+def admin_required(user=Depends(get_current_user)):
 
-    except JWTError:
-        raise HTTPException(status_code=401, detail="Invalid token")
+    if user["role"] != "admin":
+        raise HTTPException(status_code=403, detail="Admin access required")
+
+    return user
