@@ -4,7 +4,31 @@
   padding: 2rem;
   text-align: center;
 }
+.app-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  padding-top: 60px;
 
+}
+.form-container {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  gap: 15px;
+  width: 300px;
+  margin: auto;
+}
+.content-box {
+  width: 450px;
+  padding: 40px;
+  border-radius: 12px;
+
+  background: transparent;   /* transparent background */
+
+  text-align: center;
+}
 .logo {
   height: 6em;
   padding: 1.5em;

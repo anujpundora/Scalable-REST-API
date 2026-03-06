@@ -6,8 +6,9 @@ function Home(){
 
   return(
 
+        <div className="app-container">
+  <div className="content-box">
     <div style={{textAlign:"center",marginTop:"100px"}}>
-
       <h1>Task Manager</h1>
 
       <button onClick={()=>navigate("/login")}>
@@ -22,7 +23,8 @@ function Home(){
       </button>
 
     </div>
-
+    </div>
+    </div>
   )
 }
 

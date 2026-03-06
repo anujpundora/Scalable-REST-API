@@ -50,7 +50,7 @@ const handleSubmit = async (e) => {
 
       <h2>Register</h2>
 
-      <form onSubmit={handleSubmit}>
+      <form className="form-container" onSubmit={handleSubmit}>
 
         <input
           placeholder="Email"

@@ -34,11 +34,12 @@ function Login(){
 
   return(
 
-    <div>
+    <div className="app-container">
+  <div className="content-box">
 
       <h2>Login</h2>
 
-      <form onSubmit={handleSubmit}>
+      <form className="form-container" onSubmit={handleSubmit}>
 
         <input
           type="email"
@@ -68,6 +69,7 @@ function Login(){
 
       </form>
 
+    </div>
     </div>
   )
 }

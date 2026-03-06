@@ -57,8 +57,8 @@ function Dashboard(){
 
   return(
 
-    <div>
-
+    <div className="app-container">
+  <div className="content-box">
       <h2>Dashboard</h2>
 
       <button onClick={logout}>Logout</button>
@@ -78,6 +78,7 @@ function Dashboard(){
         </div>
       ))}
 
+    </div>
     </div>
 
   )
