@@ -59,28 +59,42 @@ function Dashboard(){
 
     <div className="app-container">
   <div className="content-box">
-      <h2>Dashboard</h2>
 
-      <button onClick={logout}>Logout</button>
+    <h2>Dashboard</h2>
 
-      <TaskForm refreshTasks={fetchTasks}/>
+    <button className="logout-btn" onClick={logout}>
+      Logout
+    </button>
 
-      {tasks.map((task)=>(
-        <div key={task.id}>
+    <TaskForm refreshTasks={fetchTasks}/>
 
-          <h4>{task.title}</h4>
-          <p>{task.description}</p>
+    {tasks.map((task)=>(
+      <div key={task.id} className="task-card">
 
-          <button onClick={()=>deleteTask(task.id)}>
+        <h4>{task.title}</h4>
+        <p>{task.description}</p>
+
+        <div className="task-actions">
+          <button
+            className="delete-btn"
+            onClick={()=>deleteTask(task.id)}
+          >
             Delete
           </button>
-          <button onClick={()=>updateTask(task)}>Edit</button>
+
+          <button
+            className="edit-btn"
+            onClick={()=>updateTask(task)}
+          >
+            Edit
+          </button>
         </div>
-      ))}
 
-    </div>
-    </div>
+      </div>
+    ))}
 
+  </div>
+</div>
   )
 }
 

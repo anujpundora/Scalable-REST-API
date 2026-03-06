@@ -27,7 +27,7 @@ function TaskForm({ refreshTasks }) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className="form-container" onSubmit={handleSubmit}>
 
       <input
         placeholder="Task title"

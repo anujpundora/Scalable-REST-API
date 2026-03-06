@@ -29,6 +29,62 @@
 
   text-align: center;
 }
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+.task-card {
+  background: rgba(255,255,255,0.04);
+  padding: 18px;
+  border-radius: 10px;
+  margin-top: 15px;
+
+  border: 1px solid rgba(255,255,255,0.08);
+
+  text-align: left;
+}
+
+.task-card h4 {
+  margin: 0;
+  font-weight: 600;
+}
+
+.task-card p {
+  margin: 8px 0 12px 0;
+  color: #b8b8b8;
+  font-size: 14px;
+}
+.task-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.edit-btn {
+  background: #2d2d2d;
+  color: #d8d8d8;
+}
+
+.delete-btn {
+  background: #3a2f2f;
+  color: #d4a4a4;
+}
+
+.edit-btn:hover {
+  background: #3a3a3a;
+}
+
+.delete-btn:hover {
+  background: #4a3535;
+}
+.empty-message {
+  color: #9a9a9a;
+  margin-top: 20px;
+  font-style: italic;
+}
 .logo {
   height: 6em;
   padding: 1.5em;
@@ -55,12 +111,4 @@
   a:nth-of-type(2) .logo {
     animation: logo-spin infinite 20s linear;
   }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
 }
